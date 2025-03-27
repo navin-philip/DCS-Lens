@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import OpenImmersive
 
 @main
 struct DCS_LensApp: App {

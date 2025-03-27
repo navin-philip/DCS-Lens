@@ -9,7 +9,7 @@
 
 import SwiftUI
 import SwiftData
-import OpenImmersive
+
 /// The top level tab navigation for the app.
 struct DestinationTabs: View {
     @Environment(\.horizontalSizeClass) private var horizontalSizeClass

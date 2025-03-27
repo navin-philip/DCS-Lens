@@ -6,21 +6,30 @@
 //
 
 import SwiftUI
-import OpenImmersive
 
 struct FeaturedTabView: View {
     @Environment(\.openImmersiveSpace) private var openImmersiveSpace
     @Environment(\.dismissWindow) private var dismissWindow
     @EnvironmentObject private var contentService: ContentService
-    
-    var body: some View {
+
+    @State private var fallbackFov: Int = 180
+
+  var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
                 // Featured Section
                 if let featured = contentService.allMedia.first {
                     FeaturedCard(mediaItem: featured, onPlay: { playMedia(featured) })
                 }
-                
+
+
+              HStack{
+                Text("Field of View (To be fetched automatically):")
+                FormatPicker(fieldOfView: $fallbackFov, options: [65, 144, 180, 360])
+              }
+              .padding(40)
+              .transition(.scale)
+
                 // Recently Added Section
                 VStack(alignment: .leading, spacing: 16) {
                     Text("Recently Added")
@@ -34,7 +43,7 @@ struct FeaturedTabView: View {
                             MediaCard(mediaItem: item, onPlay: { playMedia(item) })
                         }
                     }
-                    .padding(.horizontal, 8)
+                    .padding()
                 }
                 .padding(.horizontal)
             }
@@ -45,8 +54,9 @@ struct FeaturedTabView: View {
         let stream = StreamModel(
             title: media.title,
             details: media.description,
-            url: media.hlsUrl,
-            fallbackFieldOfView: 180.0,
+//            url: media.hlsUrl,
+            url: URL(string: "https://stream.spatialgen.com/stream/JNVc-sA-_QxdOQNnzlZTc/index.m3u8")!,
+            fallbackFieldOfView: Float(fallbackFov),
             isSecurityScoped: false
         )
         
@@ -60,7 +70,24 @@ struct FeaturedTabView: View {
 }
 
 
+/// A field of view picker
+struct FormatPicker: View {
+    @Binding public var fieldOfView: Int
+    public let options: [Int]
 
+    var body: some View {
+        Picker(selection: $fieldOfView) {
+            ForEach(options, id: \.self) { option in
+                Text("\(option)°").tag(option)
+            }
+        } label: {
+            Text("Open as...")
+        }
+        .pickerStyle(.palette)
+        .controlSize(.large)
+        .frame(maxWidth: CGFloat(64 * options.count))
+    }
+}
 
 
 #Preview {

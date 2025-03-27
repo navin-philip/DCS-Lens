@@ -19,6 +19,17 @@ struct MediaCard: View {
                     image
                         .resizable()
                         .aspectRatio(16/9, contentMode: .fill)
+                        .overlay(
+                            Button(action: onPlay) {
+                                Image(systemName: "play.fill")
+                                  .font(.largeTitle)
+                                  .foregroundColor(.white)
+                                  .padding(12)
+                                  .background(Color.black.opacity(0.6))
+                                  .clipShape(Circle())
+                            }.buttonStyle(.plain)
+                              .opacity(0.8)
+                        )
                 } placeholder: {
                     Rectangle()
                         .fill(Color.gray.opacity(0.3))
@@ -37,28 +48,13 @@ struct MediaCard: View {
                         .font(.headline)
                     
                     Text(mediaItem.description)
-                        .font(.subheadline)
-                        .foregroundColor(.secondary)
-                        .lineLimit(2)
-                        .multilineTextAlignment(.leading)
-                        .frame(height: 40) // Fixed height for 2 lines of text
-                    
-                  HStack{
-                    Spacer()
-                    Button(action: onPlay){
-                      HStack {
-                          Image(systemName: "play.fill")
-                          Text("Play")
-                      }
-                      .padding(.horizontal, 20)
-                      .padding(.vertical, 10)
-//                      .cornerRadius(8)
-                    }.padding(.horizontal, 16)
-                    Spacer()
-                  }
-                  .padding(8)
+                      .multilineTextAlignment(.leading)
+                      .font(.subheadline)
+                      .foregroundColor(.secondary)
+                      .lineLimit(2)
+                      .frame(height: 40, alignment: .top)
 
-                }.padding(.horizontal)
+                }.padding()
             }
             .background(.ultraThinMaterial)
             .cornerRadius(16)

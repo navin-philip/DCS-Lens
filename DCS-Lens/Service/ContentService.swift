@@ -35,7 +35,7 @@ class ContentService: ObservableObject {
         errorMessage = nil
         
 
-        let url = URL(string: baseUrl! + "catalog.json")!
+        let url = URL(string: baseUrl! + "catalog-dcs.json")!
     print("Loading content from: \(url)")
         // Using a short timeout for faster error detection
         let config = URLSessionConfiguration.default
